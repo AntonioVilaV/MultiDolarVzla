@@ -1,9 +1,8 @@
-from modules.sources.MonitorDolar import MonitorDolarExtractor
+from modules.sources.BCV import BCVExtractor
 
 
 def main():
-    driver_type = "Chrome"
-    dolar = MonitorDolarExtractor(driver_type)
+    dolar = BCVExtractor()
     price = dolar.get_dolar_price()
     print(price)
 

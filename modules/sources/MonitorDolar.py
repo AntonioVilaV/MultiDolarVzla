@@ -20,7 +20,7 @@ class MonitorDolarExtractor(DolarSource):
         self._driver_type = driver_type
         self._driver = DriverConfig(self._driver_type)
 
-    def get_dolar_data(self):
+    def get_dolar_data(self) -> str:
         """
         Retrieves the raw data of the parallel dollar from the MonitorDolar website.
 
@@ -64,7 +64,7 @@ class MonitorDolarExtractor(DolarSource):
         price = self.clean_data()
         return price if price > 0 else None
 
-    def clean_data(self):
+    def clean_data(self) -> float:
         """
         Cleans the raw data of the parallel dollar and returns the cleaned price.
 
