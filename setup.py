@@ -19,9 +19,4 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ],
     python_requires=">=3.6",
-    install_requires=[
-        "beautifulsoup4>=4.12.3",
-        "requests>=2.31.0",
-        "selenium>=4.17.2",
-    ],
 )
