@@ -3,8 +3,8 @@ import re
 import requests
 from bs4 import BeautifulSoup
 
-from modules.sources.urls import URL_BCV
-from modules.webscrapping import DolarSource
+from dolar_price.base import DolarSource
+from dolar_price.sources.urls import URL_BCV
 
 
 class BCVExtractor(DolarSource):
@@ -57,3 +57,6 @@ class BCVExtractor(DolarSource):
         cleaned_price_str = cleaned_price_str.replace(",", ".")
         cleaned_price = float(cleaned_price_str)
         return cleaned_price
+
+    def get_name(self):
+        return "BCV"

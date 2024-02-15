@@ -3,9 +3,9 @@ import re
 from bs4 import BeautifulSoup
 from selenium.common.exceptions import TimeoutException
 
-from modules.config.DriverConfig import DriverConfig
-from modules.sources.urls import URL_MONITORDOLAR
-from modules.webscrapping import DolarSource
+from dolar_price.base import DolarSource
+from dolar_price.config.driver_config import DriverConfig
+from dolar_price.sources.urls import URL_MONITORDOLAR
 
 
 class MonitorDolarExtractor(DolarSource):
@@ -16,9 +16,9 @@ class MonitorDolarExtractor(DolarSource):
         Args:
             driver_type (str): Type of driver to use for web scraping.
         """
+        super().__init__(driver_type)
         self._url = URL_MONITORDOLAR
-        self._driver_type = driver_type
-        self._driver = DriverConfig(self._driver_type)
+        self._driver = DriverConfig(driver_type)
 
     def get_dolar_data(self) -> str:
         """
@@ -76,3 +76,6 @@ class MonitorDolarExtractor(DolarSource):
         cleaned_price_str = cleaned_price_str.replace(",", ".")
         cleaned_price = float(cleaned_price_str)
         return cleaned_price
+
+    def get_name(self):
+        return "MonitorDolar"

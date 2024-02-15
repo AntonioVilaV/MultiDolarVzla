@@ -1,10 +1,8 @@
-from modules.sources.BCV import BCVExtractor
+from dolar_price import DolarPrice
 
 
 def main():
-    dolar = BCVExtractor()
-    price = dolar.get_dolar_price()
-    print(price)
+    print(DolarPrice().get_all_dolar_prices())
 
 
 if __name__ == "__main__":

@@ -1,5 +1,7 @@
 from selenium import webdriver
 
+SUPPORTED_DRIVER_TYPES = {"DriverChrome": "Chrome"}
+
 
 class DriverConfig:
     """Manages WebDriver creation based on the specified driver type."""

@@ -6,8 +6,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
-from ..config.DriverConfig import DriverConfig
-from ..webscrapping import DolarSource
+from ..base import DolarSource
+from ..config.driver_config import DriverConfig
 from .urls import URL_DOLARTODAY
 
 
@@ -23,9 +23,9 @@ class DolarTodayExtractor(DolarSource):
         Args:
             driver_type (str): Type of driver to use for web scraping.
         """
+        super().__init__(driver_type)
         self._url = URL_DOLARTODAY
-        self._driver_type = driver_type
-        self._driver = DriverConfig(self._driver_type)
+        self._driver = DriverConfig(driver_type)
 
     def get_dolar_data(self):
         """
@@ -103,3 +103,6 @@ class DolarTodayExtractor(DolarSource):
         """
         price = self.clean_data()
         return price if price > 0 else None
+
+    def get_name(self):
+        return "DolarToday"
