@@ -19,7 +19,7 @@ classifiers = [
   "Programming Language :: Python",
   "Topic :: Software Development :: Libraries :: Python Modules",
 ]
-license = "MIT"
+license = { file = "LICENS
 dependencies =[
     "beautifulsoup4>=4.12.3",
     "requests>=2.31.0",
