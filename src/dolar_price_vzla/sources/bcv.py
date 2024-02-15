@@ -2,9 +2,8 @@ import re
 
 import requests
 from bs4 import BeautifulSoup
-
-from dolar_price.base import DolarSource
-from dolar_price.sources.urls import URL_BCV
+from sources.base import DolarSource
+from sources.urls import URL_BCV
 
 
 class BCVExtractor(DolarSource):

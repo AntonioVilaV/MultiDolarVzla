@@ -1,9 +1,9 @@
 import inspect
 from typing import List  # noqa
 
-from dolar_price.base import DolarSource
-from dolar_price.config.driver_config import SUPPORTED_DRIVER_TYPES
-from dolar_price.sources import bcv, dolartoday, monitordolar
+from config.driver_config import SUPPORTED_DRIVER_TYPES
+from sources import bcv, dolartoday, monitordolar
+from sources.base import DolarSource
 
 
 class DolarPrice:
