@@ -1,9 +1,9 @@
-from modules.sources.DolarToday import DolarTodayExtractor
+from modules.sources.MonitorDolar import MonitorDolarExtractor
 
 
 def main():
     driver_type = "Chrome"
-    dolar = DolarTodayExtractor(driver_type)
+    dolar = MonitorDolarExtractor(driver_type)
     price = dolar.get_dolar_price()
     print(price)
 
