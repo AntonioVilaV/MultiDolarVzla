@@ -11,14 +11,14 @@ with open("README.md", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="DPZ",
+    name="pydollar_vzla",
     version="0.1.0",
     author="Antonio Vila",
     author_email="vila.antoniojose@gmail.com",
-    description="Obtén el precio del dólar en Venezuela desde múltiples fuentes con una sola línea de código! Nuestra biblioteca proporciona una manera sencilla y poderosa de acceder y manejar los precios del dólar desde diversas fuentes en línea, todo en un único lugar conveniente. Con funciones de webscraping integradas, recopilamos y consolidamos los datos más actualizados para que puedas tomar decisiones informadas sobre tus transacciones financieras en Venezuela. ¡Dile adiós a buscar precios dispersos y hola a una solución completa y fácil de usar con nuestra biblioteca!",
+    description="Una librería en Python para obtener el precio del dólar de diferentes fuentes.",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/AntonioVilaV/dolar-price-vzla",
+    url="https://github.com/AntonioVilaV/pydollar_vzla",
     package_dir={"": "src"},
     packages=found_packages,
     classifiers=[

@@ -3,7 +3,7 @@ import re
 from bs4 import BeautifulSoup
 from selenium.common.exceptions import TimeoutException
 
-from DPZ.config.driver_config import DriverConfig
+from pydollar_vzla.config.driver_config import DriverConfig
 
 from .base import DolarSource
 from .urls import URL_MONITORDOLAR

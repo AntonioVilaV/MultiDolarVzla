@@ -1,4 +1,4 @@
-from DPZ.dolar_price import DolarPrice
+from pydollar_vzla.dolar_price import DolarPrice
 
 
 def main():

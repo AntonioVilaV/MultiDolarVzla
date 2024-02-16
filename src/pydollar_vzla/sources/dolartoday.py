@@ -6,7 +6,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
-from DPZ.config.driver_config import DriverConfig
+from pydollar_vzla.config.driver_config import DriverConfig
 
 from .base import DolarSource
 from .urls import URL_DOLARTODAY
