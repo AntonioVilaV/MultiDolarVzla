@@ -1,10 +1,12 @@
 import re
 
 from bs4 import BeautifulSoup
-from config.driver_config import DriverConfig
 from selenium.common.exceptions import TimeoutException
-from sources.base import DolarSource
-from sources.urls import URL_MONITORDOLAR
+
+from DPZ.config.driver_config import DriverConfig
+
+from .base import DolarSource
+from .urls import URL_MONITORDOLAR
 
 
 class MonitorDolarExtractor(DolarSource):

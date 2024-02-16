@@ -1,13 +1,15 @@
 import re
 
 from bs4 import BeautifulSoup
-from config.driver_config import DriverConfig
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
-from sources.base import DolarSource
-from sources.urls import URL_DOLARTODAY
+
+from DPZ.config.driver_config import DriverConfig
+
+from .base import DolarSource
+from .urls import URL_DOLARTODAY
 
 
 class DolarTodayExtractor(DolarSource):
