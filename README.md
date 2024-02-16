@@ -1,5 +1,5 @@
 
-# PyDollar_VZLA: Obtención de Precios del Dólar de en Venezuela
+# PyDollar_VZLA: Obtención de Precios del Dólar en Venezuela
 
 ![Python](https://img.shields.io/badge/Lenguaje-Python-blue)
 ![Web Scraping](https://img.shields.io/badge/Tecnología-Web%20Scraping-green)
@@ -30,7 +30,7 @@ Esta es una librería en Python diseñada para obtener de manera eficiente y con
 Para instalar la librería, simplemente utilice el administrador de paquetes de Python `pip`:
 
 ```bash
-   pip install pydollar
+   pip install pydollar-vzla
 ```
 ---
 
@@ -43,7 +43,7 @@ Para instalar la librería, simplemente utilice el administrador de paquetes de 
    pydollar = DolarPrice()
 
    # Obtener el precio del dólar de una fuente específica
-   dollar_price = pydollar..get_all_dolar_prices()
+   dollar_price = pydollar.get_all_dolar_prices()
    print("Precios del dólar:", dollar_price)
 
 ```
