@@ -1,25 +1,22 @@
 import re
 
 from bs4 import BeautifulSoup
+from playwright.sync_api import sync_playwright
 from selenium.common.exceptions import TimeoutException
-
-from pydollar_vzla.config.driver_config import DriverConfig
 
 from .base import DolarSource
 from .urls import URL_MONITORDOLAR
 
 
 class MonitorDolarExtractor(DolarSource):
-    def __init__(self, driver_type: str):
+    def __init__(self):
         """
         Initializes the MonitorDolarExtractor instance with the specified driver type.
 
         Args:
             driver_type (str): Type of driver to use for web scraping.
         """
-        super().__init__(driver_type)
         self._url = URL_MONITORDOLAR
-        self._driver = DriverConfig(driver_type)
 
     def get_dolar_data(self) -> str:
         """
@@ -29,15 +26,22 @@ class MonitorDolarExtractor(DolarSource):
             str: Raw data of the parallel dollar.
         """
         try:
-            driver = self._driver.get_driver()
-            driver.get(self._url)
+            with sync_playwright() as p:
+                browser = p.chromium.launch()
+                page = browser.new_page()
+                page.goto(self._url)
 
-            driver.implicitly_wait(10)
+                html_content = page.content()
 
-            html_content = driver.page_source
+        except TimeoutException:
+            print("Timeout when waiting for an element on the page.")
+            return None
 
-            driver.quit()
+        except Exception as e:
+            print(f"Error downloading html content: {str(e)}")
+            return None
 
+        try:
             soup = BeautifulSoup(html_content, "html.parser")
 
             result_div = soup.find("section", id="promedios")
@@ -47,12 +51,8 @@ class MonitorDolarExtractor(DolarSource):
 
             return price
 
-        except TimeoutException:
-            print("Timeout when waiting for an element on the page.")
-            return None
-
         except Exception as e:
-            print(f"An unexpected error occurred: {str(e)}")
+            print(f"Error parsing html: {str(e)}")
             return None
 
     def get_dolar_price(self) -> float:
@@ -72,7 +72,9 @@ class MonitorDolarExtractor(DolarSource):
         Returns:
             float: Cleaned price of the parallel dollar.
         """
-        price = self.get_dolar_data() if self.get_dolar_data() else "0:0"
+        price = self.get_dolar_data()
+        if price is None:
+            return None
         cleaned_price_str = re.sub(r"[^\d.,]", "", price)
         cleaned_price_str = cleaned_price_str.replace(",", ".")
         cleaned_price = float(cleaned_price_str)
