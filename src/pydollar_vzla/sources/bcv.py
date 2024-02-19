@@ -52,7 +52,9 @@ class BCVExtractor(DolarSource):
         Returns:
             float: Cleaned price of the parallel dollar.
         """
-        price = self.get_dolar_data() if self.get_dolar_data() else "0:0"
+        price = self.get_dolar_data()
+        if price is None:
+            return "0.0"
         cleaned_price_str = re.sub(r"[^\d.,]", "", price)
         cleaned_price_str = cleaned_price_str.replace(",", ".")
         cleaned_price = float(cleaned_price_str)
