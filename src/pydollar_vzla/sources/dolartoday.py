@@ -1,7 +1,7 @@
 import re
 
+from playwright._impl._errors import TimeoutError
 from playwright.sync_api import sync_playwright
-from selenium.common.exceptions import TimeoutException
 
 from .base import DolarSource
 from .urls import URL_DOLARTODAY
@@ -57,8 +57,8 @@ class DolarTodayExtractor(DolarSource):
                 )
                 parallel_dollar_value = parallel_dollar_element.inner_text()
 
-        except TimeoutException:
-            print("Timeout when waiting for an element on the page.")
+        except TimeoutError:
+            print("Timeout when waiting for an element on the page - ", self.get_name())
             return None
 
         try:
