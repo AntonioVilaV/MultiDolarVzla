@@ -1,5 +1,3 @@
-from selenium import webdriver
-
 SUPPORTED_DRIVER_TYPES = {"DriverChrome": "Chrome"}
 
 
@@ -16,7 +14,7 @@ class DriverConfig:
         """
         self._driver_type = driver_type
 
-    def get_driver(self) -> webdriver.Chrome:
+    def get_driver(self):
         """
         Retrieves an instance of the specified web driver.
 
@@ -28,7 +26,7 @@ class DriverConfig:
         """
 
         driver_creators = {
-            "Chrome": webdriver.Chrome,
+            "Chrome": "Chrome",
         }
 
         if self._driver_type not in driver_creators:
@@ -36,10 +34,7 @@ class DriverConfig:
                 f"Driver type '{self._driver_type}' not supported. Supported types are: {', '.join(driver_creators.keys())}"
             )
 
-        options = webdriver.ChromeOptions()
-        options.add_argument("--headless")
-
-        return driver_creators[self._driver_type](options=options)
+        return driver_creators[self._driver_type]()
 
     def set_driver(self, new_driver_type: str) -> None:
         """

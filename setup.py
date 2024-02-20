@@ -1,16 +1,4 @@
-import subprocess
-
 import setuptools
-from setuptools.command.install import install
-
-
-class InstallBrowserPlaywright(install):
-    """Customized setuptools install command - installs playwright."""
-
-    def run(self):
-        install.run(self)
-        subprocess.check_call(["playwright", "install"])
-
 
 found_packages = setuptools.find_packages(where="src")
 
@@ -34,7 +22,4 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ],
     python_requires=">=3.6",
-    cmdclass={
-        "install": InstallBrowserPlaywright,
-    },
 )
