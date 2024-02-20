@@ -11,7 +11,7 @@
 
 ## Descripción
 
-Esta es una librería en Python diseñada para obtener de manera eficiente y confiable el precio del dólar en Venezuela desde múltiples fuentes. Desarrollada con el propósito de ofrecer una herramienta versátil y fácil de usar, la librería cuenta con la capacidad de extraer información de diversas páginas web utilizando técnicas de web scraping, combinando las potentes capacidades de Selenium, BeautifulSoup y Requests para garantizar la precisión de los datos obtenidos.
+Esta es una librería en Python diseñada para obtener de manera eficiente y confiable el precio del dólar en Venezuela desde múltiples fuentes. Desarrollada con el propósito de ofrecer una herramienta versátil y fácil de usar, la librería cuenta con la capacidad de extraer información de diversas páginas web utilizando técnicas de web scraping, combinando las potentes capacidades de Playwright, BeautifulSoup y Requests para garantizar la precisión de los datos obtenidos.
 
 ## Características Principales
 
@@ -27,10 +27,14 @@ Esta es una librería en Python diseñada para obtener de manera eficiente y con
 
 ## Instalación
 
-Para instalar la librería, simplemente utilice el administrador de paquetes de Python `pip`:
-
+Para instalar la librería abra una shell interactiva y ejecute:
+1. Instale la librería
 ```bash
    pip install pydollar-vzla
+```
+2. Instale las dependencias (Navegadores)
+```bash
+   playwright install
 ```
 ---
 
@@ -43,8 +47,8 @@ Para instalar la librería, simplemente utilice el administrador de paquetes de 
    pydollar = DolarPrice()
 
    # Obtener el precio del dólar de una fuente específica
-   dollar_price = pydollar.get_all_dolar_prices()
-   print("Precios del dólar:", dollar_price)
+   dollar_prices = pydollar.get_all_dolar_prices()
+   print("Dollar prices:", dollar_prices)
 
 ```
 
