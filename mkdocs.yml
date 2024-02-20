@@ -1,7 +1,6 @@
 site_name: PyDollar-VZLA
 theme: readthedocs
-nav: 
+nav:
   - inicio: 'index.md'
   - API Referencia: 'api-reference.md'
   - Guía de usuario: 'user-guide.md'
-docs_dir: docs
