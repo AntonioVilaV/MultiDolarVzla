@@ -7,7 +7,7 @@ with open("README.md", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="pydollar_vzla",
-    version="0.1.1",
+    version="0.1.2",
     author="Antonio Vila",
     author_email="vila.antoniojose@gmail.com",
     description="Una librería en Python para obtener el precio del dólar de diferentes fuentes.",
