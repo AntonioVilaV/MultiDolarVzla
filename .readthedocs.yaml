@@ -2,3 +2,6 @@ version: 2
 
 mkdocs:
   configuration: mkdocs.yml
+
+build:
+  source_dir: docs
