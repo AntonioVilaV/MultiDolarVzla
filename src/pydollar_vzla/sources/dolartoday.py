@@ -1,7 +1,8 @@
+import json
 import re
 
-from playwright._impl._errors import TimeoutError
-from playwright.sync_api import sync_playwright
+import requests
+from requests.exceptions import HTTPError
 
 from .base import DolarSource
 from .urls import URL_DOLARTODAY
@@ -21,7 +22,7 @@ class DolarTodayExtractor(DolarSource):
         """
         self._url = URL_DOLARTODAY
 
-    def get_dolar_data(self):
+    def get_dolar_data(self) -> json:
         """
         Retrieves the raw data of the parallel dollar from the DolarToday website.
 
@@ -30,47 +31,13 @@ class DolarTodayExtractor(DolarSource):
         """
 
         try:
-            with sync_playwright() as p:
-                browser = p.chromium.launch()
-                page = browser.new_page()
-                page.goto(self._url)
-
-                page.wait_for_selector("#amount")
-                amount_input = page.locator("#amount")
-                amount_input.clear()
-                amount_input.fill("1")
-
-                page.wait_for_selector("#calculate-button")
-                calculate_button = page.locator("#calculate-button")
-                calculate_button.click()
-
-                wait_function_script = """
-                    function() {
-                        const resultText = document.querySelector('#dt-currency-calculator-results p:nth-of-type(1)').textContent;
-                        return resultText !== 'Dólar Paralelo: Bs. 0';
-                    }
-                """
-                page.wait_for_function(wait_function_script)
-
-                parallel_dollar_element = page.locator(
-                    "#dt-currency-calculator-results p:nth-of-type(1)"
-                )
-                parallel_dollar_value = parallel_dollar_element.inner_text()
-
-        except TimeoutError:
-            print("Timeout when waiting for an element on the page - ", self.get_name())
-            return None
-
-        try:
-            price = "0.0"
-            if parallel_dollar_value:
-                price = parallel_dollar_value.split(":")[1]
-                price = price.split("Bs.")[1]
-            return price
-
-        except Exception as e:
-            print(f"An unexpected error occurred: {str(e)}")
-            return None
+            data = {"action": "dt_currency_calculator_handler", "amount": "1"}
+            response = requests.post(self._url, data=data)
+            response.raise_for_status()
+            return response.json()
+        except HTTPError as e:
+            print(f"Error HTTP: {e.response.status_code}")
+            return {}
 
     def clean_data(self) -> float:
         """
@@ -79,14 +46,20 @@ class DolarTodayExtractor(DolarSource):
         Returns:
             float: Cleaned price of the parallel dollar.
         """
-        price = self.get_dolar_data()
-        if price is None:
+        data = self.get_dolar_data()
+
+        if len(data) <= 0:
             return 0
-        cleaned_price_str = re.sub(r"[^\d.,]", "", price)
-        cleaned_price_str = cleaned_price_str.replace(",", ".")
-        cleaned_price = float(cleaned_price_str)
-        cleaned_price = round(cleaned_price, 2)
-        return cleaned_price
+
+        cleaned_prices = {}
+        for key, price in data.items():
+            cleaned_price_str = re.sub(r"[^\d.,]", "", price)
+            cleaned_price_str = cleaned_price_str.replace(",", ".")
+            float_cleaned_price = float(cleaned_price_str[1:])
+            float_cleaned_price = round(float_cleaned_price, 2)
+            cleaned_prices[key] = float_cleaned_price
+
+        return cleaned_prices
 
     def get_dolar_price(self) -> float:
         """
@@ -96,7 +69,9 @@ class DolarTodayExtractor(DolarSource):
             float: Price of the parallel dollar.
         """
         price = self.clean_data()
-        return price if price > 0 else None
+        if price != 0:
+            return price["Dólar Paralelo"] if len(price) > 0 else None
+        return None
 
     def get_name(self):
         return "DolarToday"
