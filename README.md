@@ -3,7 +3,6 @@
 
 ![Python](https://img.shields.io/badge/Lenguaje-Python-blue)
 ![Web Scraping](https://img.shields.io/badge/Tecnología-Web%20Scraping-green)
-![Selenium](https://img.shields.io/badge/Tecnología-Selenium-yellow)
 ![BeautifulSoup](https://img.shields.io/badge/Tecnología-BeautifulSoup-orange)
 ![Requests](https://img.shields.io/badge/Tecnología-Requests-red)
 
@@ -11,7 +10,7 @@
 
 ## Descripción
 
-Esta es una librería en Python diseñada para obtener de manera eficiente y confiable el precio del dólar en Venezuela desde múltiples fuentes. Desarrollada con el propósito de ofrecer una herramienta versátil y fácil de usar, la librería cuenta con la capacidad de extraer información de diversas páginas web utilizando técnicas de web scraping, combinando las potentes capacidades de Playwright, BeautifulSoup y Requests para garantizar la precisión de los datos obtenidos.
+Esta es una librería en Python diseñada para obtener de manera eficiente y confiable el precio del dólar en Venezuela desde múltiples fuentes. Desarrollada con el propósito de ofrecer una herramienta versátil y fácil de usar, la librería cuenta con la capacidad de extraer información de diversas páginas web utilizando técnicas de web scraping, combinando las potentes capacidades de BeautifulSoup y Requests para garantizar la precisión de los datos obtenidos.
 
 ## Características Principales
 
@@ -28,13 +27,9 @@ Esta es una librería en Python diseñada para obtener de manera eficiente y con
 ## Instalación
 
 Para instalar la librería abra una shell interactiva y ejecute:
-1. Instale la librería
+
 ```bash
    pip install pydollar-vzla
-```
-2. Instale las dependencias (Navegadores)
-```bash
-   playwright install
 ```
 ---
 
