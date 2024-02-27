@@ -1,8 +1,7 @@
 import re
 
-from bs4 import BeautifulSoup
-from playwright._impl._errors import TimeoutError
-from playwright.sync_api import sync_playwright
+import requests
+from requests.exceptions import HTTPError
 
 from .base import DolarSource
 from .urls import URL_MONITORDOLAR
@@ -25,35 +24,24 @@ class MonitorDolarExtractor(DolarSource):
         Returns:
             str: Raw data of the parallel dollar.
         """
+
+        headers = {
+            "Host": "api.monitordolarvenezuela.com",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:122.0) Gecko/20100101 Firefox/122.0",
+            "Origin": "https://monitordolarvenezuela.com",
+            "Pragma": "no-cache",
+            "Cache-Control": "no-cache",
+        }
         try:
-            with sync_playwright() as p:
-                browser = p.chromium.launch()
-                page = browser.new_page()
-                page.goto(self._url)
-
-                html_content = page.content()
-
-        except TimeoutError:
-            print("Timeout when waiting for an element on the page - ", self.get_name())
-            return None
-
-        except Exception as e:
-            print(f"Error downloading html content: {str(e)}")
-            return None
-
-        try:
-            soup = BeautifulSoup(html_content, "html.parser")
-
-            result_div = soup.find("section", id="promedios")
-            parallel_dollar_h3 = result_div.find("h3", text="@EnParaleloVzla3")
-            parallal_dollar_data = parallel_dollar_h3.find_next_sibling("p")
-            price = parallal_dollar_data.text.split("=")[1]
-
-            return price
-
-        except Exception as e:
-            print(f"Error parsing html: {str(e)}")
-            return None
+            response = requests.get(self._url, headers=headers)
+            response.raise_for_status()
+            data_json = response.json()
+            prices = data_json["result"][0]
+            del prices["id"]
+            return prices
+        except HTTPError as e:
+            print(f"Error HTTP: {e.response.status_code}")
+            return {}
 
     def get_dolar_price(self) -> float:
         """
@@ -63,7 +51,7 @@ class MonitorDolarExtractor(DolarSource):
             float: Price of the parallel dollar.
         """
         price = self.clean_data()
-        return price if price > 0 else None
+        return price["prom_epv"] if len(price) > 0 else None
 
     def clean_data(self) -> float:
         """
@@ -73,12 +61,20 @@ class MonitorDolarExtractor(DolarSource):
             float: Cleaned price of the parallel dollar.
         """
         price = self.get_dolar_data()
-        if price is None:
+        if len(price) <= 0:
             return None
-        cleaned_price_str = re.sub(r"[^\d.,]", "", price)
-        cleaned_price_str = cleaned_price_str.replace(",", ".")
-        cleaned_price = float(cleaned_price_str)
-        return cleaned_price
+
+        cleaned_prices = {}
+        for key, value in price.items():
+            cleaned_price_str = re.sub(
+                r"[^\d.,]", "", value if value is not None else "0.0"
+            )
+            cleaned_price_str = cleaned_price_str.replace(",", ".")
+            float_cleaned_price = float(cleaned_price_str)
+            float_cleaned_price = round(float_cleaned_price, 2)
+            cleaned_prices[key] = float_cleaned_price
+
+        return cleaned_prices
 
     def get_name(self):
         return "MonitorDolar"
